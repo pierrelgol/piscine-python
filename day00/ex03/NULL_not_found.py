@@ -1,33 +1,43 @@
 #!/usr/bin/env python3
 
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    NULL_not_found.py                                  :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: pollivie <plgol.perso@gmail.com>           +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/04/22 15:44:57 by pollivie          #+#    #+#              #
-#    Updated: 2025/04/22 15:44:57 by pollivie         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+
+def isNullInteger(object: any) -> bool:
+    """Returns true if object is of type 'int' and is equal to '0'"""
+    return isinstance(object, int) and object == 0
+
+
+def isNullFloat(object: any) -> bool:
+    """Returns true if object is of type 'float' and is equal to 'NaN'"""
+    return isinstance(object, float) and object != object
+
+
+def isNullString(object: any) -> bool:
+    """Returns true if object is of type 'str' and of length '0'"""
+    return isinstance(object, str) and len(str(object)) == 0
+
+
+def isNullBool(object: any) -> bool:
+    """Returns true if object is of type 'bool' and is equal to 'False'"""
+    return isinstance(object, bool) and not object
+
+
+def isAnyNone(object: any) -> bool:
+    """Returns true if object is of type 'NoneType'"""
+    return object is None
 
 
 def NULL_not_found(object: any) -> int:
-    if isinstance(object, type(None)):
-        print(f"Nothing: {object} {type(object)}")
-    elif isinstance(object, float):
+    """Returns 1 if 'object' is not considered a 'NULL' type else 1"""
+    if isAnyNone(object):
+        print(f"Nothing: None {type(object)}")
+    elif isNullFloat(object):
         print(f"Cheese: {object} {type(object)}")
-    elif isinstance(object, bool):
+    elif isNullBool(object):
         print(f"Fake: {object} {type(object)}")
-    elif isinstance(object, int):
+    elif isNullInteger(object):
         print(f"Zero: {object} {type(object)}")
-    elif isinstance(object, str):
-        if len(str(object)) == 0:
-            print(f"Empty: {type(object)}")
-        else:
-            print("Type not Found")
-            return 1
+    elif isNullString(object):
+        print(f"Empty: {type(object)}")
     else:
         print("Type not Found")
         return 1
