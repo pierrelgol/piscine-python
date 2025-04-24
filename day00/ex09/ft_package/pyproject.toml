@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ft_package"
+version = "0.1.0"
+description = "a python package"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Pierre", email = "plgol.perso@gmail.com"}]
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+
