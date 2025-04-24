@@ -1,38 +1,50 @@
 #!/usr/bin/env python
 
-import sys as sys
-from typing import List, Optional, NoReturn
+import sys
 
 
-def parse_arguments(words: str, max_len_str: str) -> Optional[tuple]:
-    # parse arguments and checks that the second one is numeric
+def parse_arguments(words: str, max_len_str: str) -> tuple | None:
+    """Returns a tuple of '(str, int)' or None if max_len_str is not numeric"""
     if not max_len_str.isnumeric():
         return None
     return (words, int(max_len_str))
 
 
-def error_and_die() -> NoReturn:
-    # closes the program with error message
-    print("AssertionError: the arguments are bad", file=sys.stderr)
+def eprintln(exception: any) -> None:
+    """Reports an AssertionError to stderr"""
+    print(exception, file=sys.stderr)
+
+
+def error_and_die(exception: AssertionError) -> None:
+    """Reports an AssertionError to stderr and exits with status code '1'"""
+    eprintln(exception=exception)
     sys.exit(1)
 
 
-def process_arguments(words: str, min_len: int) -> List[str]:
-    # process the arguments by splitting and filtering words by min len
-    return list(filter(lambda w: len(w) > min_len, words.split()))
+def process_arguments(words: str, min_len: int) -> list[str]:
+    """Returns a list of 'word' whose length is greater than 'min_len'"""
+    return list(filter(lambda w="": len(w) > min_len, words.split()))
 
 
-def main() -> None:
-    # program entry point
-    if len(sys.argv) != 3:
-        error_and_die()
+def main() -> int:
+    """Program entry point"""
 
-    maybe_args: Optional[tuple] = parse_arguments(*sys.argv[1:])
-    if maybe_args is not None:
-        print(process_arguments(*maybe_args))
-    else:
-        error_and_die()
-    return
+    try:
+        if len(sys.argv) != 3:
+            raise AssertionError("AssertionError: the arguments are bad")
+
+        maybe_args = parse_arguments(*sys.argv[1:])
+
+        if maybe_args is None:
+            raise AssertionError("AssertionError: the arguments are bad")
+        else:
+            print(process_arguments(*maybe_args))
+    except AssertionError as ae:
+        error_and_die(ae)
+    except Exception as e:
+        error_and_die(e)
+
+    return 0
 
 
 if __name__ == "__main__":
