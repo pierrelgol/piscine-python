@@ -10,14 +10,9 @@ def parse_arguments(words: str, max_len_str: str) -> tuple | None:
     return (words, int(max_len_str))
 
 
-def eprintln(exception: any) -> None:
-    """Reports an AssertionError to stderr"""
-    print(exception, file=sys.stderr)
-
-
-def error_and_die(exception: AssertionError) -> None:
+def error_and_die(exception: any) -> None:
     """Reports an AssertionError to stderr and exits with status code '1'"""
-    eprintln(exception=exception)
+    print(exception, file=sys.stderr)
     sys.exit(1)
 
 
@@ -29,22 +24,13 @@ def process_arguments(words: str, min_len: int) -> list[str]:
 def main() -> int:
     """Program entry point"""
 
-    try:
-        if len(sys.argv) != 3:
-            raise AssertionError("AssertionError: the arguments are bad")
+    sys.tracebacklimit = 0
 
-        maybe_args = parse_arguments(*sys.argv[1:])
+    assert len(sys.argv) == 2, "the arguments are bad"
+    maybe_args = parse_arguments(*sys.argv[1:])
 
-        if maybe_args is None:
-            raise AssertionError("AssertionError: the arguments are bad")
-        else:
-            print(process_arguments(*maybe_args))
-    except AssertionError as ae:
-        error_and_die(ae)
-    except Exception as e:
-        error_and_die(e)
-
-    return 0
+    assert maybe_args is not None, "the arguments are bad"
+    print(process_arguments(*maybe_args))
 
 
 if __name__ == "__main__":
