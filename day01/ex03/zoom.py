@@ -86,11 +86,11 @@ def load_image_and_zoom_sliced() -> None:
         error_and_die(e)
 
 
-def main() -> None:
+def main() -> int:
     """Program entry point"""
     load_image_and_zoom_centered()
     load_image_and_zoom_sliced()
-    return
+    return 0
 
 
 if __name__ == "__main__":
