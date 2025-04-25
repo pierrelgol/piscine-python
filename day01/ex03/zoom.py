@@ -7,21 +7,23 @@ from PIL import Image
 
 
 def eprintln(exception: Exception) -> None:
+    """Reports and exception to stderr"""
     print(exception, file=sys.stderr)
 
 
 def error_and_die(exception: Exception) -> None:
+    """Reports and exception to stderr and exit with status code '1'"""
     eprintln(exception)
     exit(1)
 
 
 def clamp(cmin: int, cmax: int, value: int) -> int:
+    """Clamp a 'value' to the interval [min, max]"""
     return max(min(value, cmax), cmin)
 
 
 def zoom_centered(image: np.ndarray, zoom_percent: float) -> np.ndarray:
-    if zoom_percent == 0.0:
-        return image
+    """Returns a centered slice of image based on a percentage from [0, 1]"""
     height, width = image.shape[:2]
     new_height = int(height * clamp(0, 1, zoom_percent))
     new_width = int(width * clamp(0, 1, zoom_percent))
@@ -35,6 +37,7 @@ def zoom_centered(image: np.ndarray, zoom_percent: float) -> np.ndarray:
 
 
 def zoom_slice(image: np.ndarray, new_height: int, new_width: int) -> np.ndarray:
+    """Returns a centered slice of image based on a desired height/width"""
     height, width = image.shape[:2]
     center_x = int(width // 2)
     center_y = int(height // 2)
@@ -50,15 +53,28 @@ def zoom_slice(image: np.ndarray, new_height: int, new_width: int) -> np.ndarray
 
 
 def from_rgb_to_grey(image: np.ndarray) -> np.ndarray:
+    """Returns a np.ndarray(uint8t) corresponding to the grey level of an rgb image"""
     grey = 0.2989 * image[:, :, 0] + 0.5870 * image[:, :, 1] + 0.1140 * image[:, :, 2]
     grey = np.clip(grey, 0, 255)
     grey = grey.astype(np.uint8)
     return grey
 
 
-def main() -> None:
-    image: np.ndarray
+def load_image_and_zoom_centered() -> None:
+    """Try to load an image, zoom center, grey and show"""
+    try:
+        image = ft_load("image.jpeg")
+        print(f"The shape of the image is: {image.shape}")
+        image_zoomed = zoom_centered(image, 0.25)
+        grey = from_rgb_to_grey(image_zoomed)
+        Image.fromarray(grey).show()
+        print(f"New shape after slicing: {grey.shape} or {grey.shape[:2]}")
+    except Exception as e:
+        error_and_die(e)
 
+
+def load_image_and_zoom_sliced() -> None:
+    """Try to load an image, zoom sliced, grey and show"""
     try:
         image = ft_load("image.jpeg")
         print(f"The shape of the image is: {image.shape}")
@@ -69,6 +85,11 @@ def main() -> None:
     except Exception as e:
         error_and_die(e)
 
+
+def main() -> None:
+    """Program entry point"""
+    load_image_and_zoom_centered()
+    load_image_and_zoom_sliced()
     return
 
 
