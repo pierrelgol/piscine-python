@@ -19,4 +19,6 @@ def ft_load(path: str) -> np.ndarray:
         raise ValueError(f"ValueError: '{path}' is not a valid path.")
     if path.suffix not in {".jpeg", ".jpg"}:
         raise ValueError(f"ValueError: '{path.suffix}' extension is not supported")
-    return pyplot.imread(path)
+    image = pyplot.imread(path)
+    print(np.shape(image))
+    return image
