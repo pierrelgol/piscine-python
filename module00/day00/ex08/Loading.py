@@ -12,11 +12,11 @@ def ft_tqdm(lst: range) -> None:
     def printProgress(index: int) -> None:
         """inner print function"""
         percent: float = index / total
-        progress_len = int(80 * percent)
+        progress = int(80 * percent)
         if index == total:
             bar = "=" * 79 + ">"
         else:
-            bar = "=" * max(0, progress_len - 1) + ">" + " " * (80 - progress_len)
+            bar = "=" * max(0, progress - 1) + ">" + " " * (80 - progress)
         print(
             f"{int(round(percent * 100)):3}% |[{bar}]| {index}/{total}",
             end="\r",

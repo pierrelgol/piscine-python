@@ -44,8 +44,9 @@ def main() -> int:
         return 0
 
     try:
+        msg = "AssertionError: more than one argument is provided"
         if len(sys.argv) > 2:
-            raise AssertionError("AssertionError: more than one argument is provided")
+            raise AssertionError(msg)
     except AssertionError as ae:
         errorAndDie(ae)
 

@@ -56,7 +56,7 @@ def countText(input: str) -> dict[str:int]:
             count["upper "] += 1
         elif char.isspace():
             count["space"] += 1
-        elif char in "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~":
+        elif char in "!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" + '"':
             count["punct"] += 1
         elif char.isdigit():
             count["digit"] += 1
@@ -80,8 +80,9 @@ def printResult(results: dict[str:int]) -> None:
 def main() -> int:
     """program entry point"""
     try:
+        msg = "AssertionError: more than one argument is provided"
         if len(sys.argv) > 2:
-            raise AssertionError("AssertionError: more than one argument is provided")
+            raise AssertionError(msg)
         else:
             printResult(countText(getUserInput()))
     except AssertionError as ae:

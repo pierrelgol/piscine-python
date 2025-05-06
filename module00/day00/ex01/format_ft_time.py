@@ -12,7 +12,8 @@ def format_ft_time() -> str:
     epoch_sec: str = tm.strftime(f"{epoch_second:,}")
     epoch_sci: str = tm.strftime(f"{epoch_second:.2e}")
     epoch_dat: str = tm.strftime("%b %d %Y", local_time)
-    return format(f"{intro_str} {epoch_sec} or {epoch_sci} {outro_str}\n{epoch_dat}")
+    s: str = f"{intro_str} {epoch_sec} or {epoch_sci} {outro_str}\n{epoch_dat}"
+    return format(s)
 
 
 print(format_ft_time())
