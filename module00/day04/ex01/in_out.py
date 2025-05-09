@@ -33,6 +33,7 @@ def outer(x: int | float, function: Callable) -> Callable:
 
 
 def main() -> None:
+    """Entry point"""
     my_counter = outer(3, square)
     print(my_counter())
     print(my_counter())

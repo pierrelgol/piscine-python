@@ -3,13 +3,31 @@
 from typing import Any, List
 
 
-def compute_median(items: List[float]) -> List[float]:
+def compute_median(items: List[float]) -> float:
+    """
+    Compute the median of a sorted list of numbers.
+
+    Args:
+        items (List[float]): A sorted list of numeric values.
+
+    Returns:
+        float: The median value.
+    """
     length = len(items)
     mid = length // 2
     return items[mid] if length & 1 else (items[mid - 1] + items[mid]) / 2
 
 
 def compute_quartiles(data: List[float]) -> List[float]:
+    """
+    Compute the first and third quartiles (Q1 and Q3) of a list of numbers.
+
+    Args:
+        data (List[float]): A list of numeric values.
+
+    Returns:
+        List[float]: A list containing Q1 and Q3.
+    """
     sorted_data = sorted(data)
     n = len(sorted_data)
 
@@ -27,20 +45,48 @@ def compute_quartiles(data: List[float]) -> List[float]:
 
 
 def compute_variance(data: List[float]) -> float:
+    """
+    Compute the variance of a list of numbers.
+
+    Args:
+        data (List[float]): A list of numeric values.
+
+    Returns:
+        float: The variance of the data.
+    """
     n = len(data)
     mean = sum(data) / n
     return sum((x - mean) ** 2 for x in data) / n
 
 
 def compute_standard_deviation(data: List[float]) -> float:
+    """
+    Compute the standard deviation of a list of numbers.
+
+    Args:
+        data (List[float]): A list of numeric values.
+
+    Returns:
+        float: The standard deviation.
+    """
     var = compute_variance(data)
     return var**0.5
 
 
 def ft_statistics(*args: Any, **kwargs: Any) -> None:
     """
-    Compute statistical metrics based on kwargs instructions.
-    Accepts a variable number of numerical arguments.
+    Print statistical metrics requested via kwargs on the input numeric args.
+
+    Supported metrics via kwargs values:
+        - "mean"
+        - "median"
+        - "quartile"
+        - "var"
+        - "std"
+
+    Args:
+        *args: A variable number of numeric values.
+        **kwargs: Keyword arguments specifying which statistics to compute.
     """
     if not args:
         print("ERROR")
@@ -68,9 +114,14 @@ def ft_statistics(*args: Any, **kwargs: Any) -> None:
             print(f"{value} : {compute_variance(numbers)}")
         elif value == "std":
             print(f"{value} : {compute_standard_deviation(numbers)}")
+        else:
+            print("ERROR")
 
 
 def main() -> None:
+    """
+    Entry point for testing ft_statistics with various inputs.
+    """
     ft_statistics(1, 42, 360, 11, 64, toto="mean", tutu="median", tata="quartile")
     print("-----")
     ft_statistics(5, 75, 450, 18, 597, 27474, 48575, hello="std", world="var")
@@ -78,7 +129,6 @@ def main() -> None:
     ft_statistics(5, 75, 450, 18, 597, 27474, 48575, ejfhhe="heheh", ejdjdejn="kdekem")
     print("-----")
     ft_statistics(toto="mean", tutu="median", tata="quartile")
-    return
 
 
 if __name__ == "__main__":
