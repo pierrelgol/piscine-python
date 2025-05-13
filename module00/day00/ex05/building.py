@@ -1,46 +1,33 @@
 #!/usr/bin/env python3
-import sys as sys
+
+import sys
 
 
-def eprintln(exception: AssertionError) -> None:
-    """Reports an AssertionError to 'stderr'"""
+def eprintln(exception: Exception) -> None:
+    """Reports an error to stderr"""
     print(exception, file=sys.stderr)
 
 
-def errorAndDie(exception: AssertionError) -> None:
-    """Reports an AssertionError to 'stderr' and exit with status code 1"""
-    eprintln(exception=exception)
+def errorAndDie(exception: Exception) -> None:
+    """Reports an error to stderr and exits"""
+    eprintln(exception)
     sys.exit(1)
 
 
 def getUserInput() -> str:
-    """Returns a string of user inputs from sys.argv[1] or from 'input()'"""
+    """Returns input string from sys.argv or prompt"""
     if len(sys.argv) == 1:
-        input_str: str = ""
         try:
-            input_str = input("What is the text to count?")
-            input_str += "\n"
-        except EOFError:
-            return input_str
-        except KeyboardInterrupt:
-            return input_str + " "
-        return input_str
+            return input("What is the text to count? ") + "\n"
+        except (EOFError, KeyboardInterrupt):
+            return ""
     else:
         return sys.argv[1]
 
 
-def countText(input: str) -> dict[str:int]:
-    """
-    Returns a dict[str:int] that contains a distinct count of letters in input
-    by the following kind:
-        - "lower",
-        - "upper",
-        - "space",
-        - "punct",
-        - "value",
-        - "digit",
-    """
-    count: dict[str:int] = {
+def countText(text: str) -> dict[str, int]:
+    """Counts various character types in the input text"""
+    count = {
         "lower": 0,
         "upper": 0,
         "space": 0,
@@ -49,14 +36,14 @@ def countText(input: str) -> dict[str:int]:
         "digit": 0,
     }
 
-    for char in input:
+    for char in text:
         if char.islower():
             count["lower"] += 1
         elif char.isupper():
-            count["upper "] += 1
+            count["upper"] += 1
         elif char.isspace():
             count["space"] += 1
-        elif char in "!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" + '"':
+        elif char in r"!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\"":
             count["punct"] += 1
         elif char.isdigit():
             count["digit"] += 1
@@ -64,14 +51,12 @@ def countText(input: str) -> dict[str:int]:
     return count
 
 
-def printResult(results: dict[str:int]) -> None:
-    """
-    This function display the keys of results and their values
-    """
+def printResult(results: dict[str, int]) -> None:
+    """Displays the character counts"""
     print("The text contains")
     print(f"{results['value']} characters:")
-    print(f"{results['upper']} letters")
-    print(f"{results['lower']} letters")
+    print(f"{results['upper']} upper-case letters")
+    print(f"{results['lower']} lower-case letters")
     print(f"{results['punct']} punctuation marks")
     print(f"{results['space']} spaces")
     print(f"{results['digit']} digits")
@@ -83,10 +68,9 @@ def main() -> int:
         msg = "AssertionError: more than one argument is provided"
         if len(sys.argv) > 2:
             raise AssertionError(msg)
-        else:
-            printResult(countText(getUserInput()))
-    except AssertionError as ae:
-        errorAndDie(ae)
+        text = getUserInput()
+        results = countText(text)
+        printResult(results)
     except Exception as e:
         errorAndDie(e)
     return 0

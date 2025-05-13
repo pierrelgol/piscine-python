@@ -13,6 +13,12 @@ def intFromString(number: str) -> int | None:
     Returns an 'int' if 'number' conversion is safe or 'None' if converting
     'number' would raise an exception
     """
+    if number is None:
+        return None
+
+    if number[0] == "-" or number[0] == "+":
+        number = number[1:]
+
     if number.isnumeric():
         return int(number)
     else:

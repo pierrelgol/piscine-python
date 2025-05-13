@@ -36,13 +36,13 @@ def zoom_centered(image: np.ndarray, zoom_percent: float) -> np.ndarray:
     return image[y1:y2, x1:x2:]
 
 
-def zoom_slice(image: np.ndarray, new_height: int, new_width: int) -> np.ndarray:
+def zoom_slice(image: np.ndarray, nheight: int, nwidth: int) -> np.ndarray:
     """Returns a centered slice of image based on a desired height/width"""
     height, width = image.shape[:2]
     center_x = int(width // 2)
     center_y = int(height // 2)
-    half_h = int(new_height // 2)
-    half_w = int(new_width // 2)
+    half_h = int(nheight // 2)
+    half_w = int(nwidth // 2)
 
     y1 = max(center_y - half_h, 0)
     y2 = min(center_y + half_h, height)
@@ -52,12 +52,15 @@ def zoom_slice(image: np.ndarray, new_height: int, new_width: int) -> np.ndarray
     return image[y1:y2, x1:x2, :]
 
 
-def from_rgb_to_grey(image: np.ndarray) -> np.ndarray:
-    """Returns a np.ndarray(uint8t) corresponding to the grey level of an rgb image"""
-    grey = 0.2989 * image[:, :, 0] + 0.5870 * image[:, :, 1] + 0.1140 * image[:, :, 2]
-    grey = np.clip(grey, 0, 255)
-    grey = grey.astype(np.uint8)
-    return grey
+def from_rgb_to_grey(img: np.ndarray) -> np.ndarray:
+    """
+    Returns a np.ndarray(uint8t) corresponding
+    to the grey level of an rgb image
+    """
+    g = 0.2989 * img[:, :, 0] + 0.5870 * img[:, :, 1] + 0.1140 * img[:, :, 2]
+    g = np.clip(g, 0, 255)
+    g = g.astype(np.uint8)
+    return g
 
 
 def load_image_and_zoom_centered() -> None:

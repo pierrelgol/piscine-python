@@ -26,7 +26,7 @@ def main() -> int:
 
     sys.tracebacklimit = 0
 
-    assert len(sys.argv) == 2, "the arguments are bad"
+    assert len(sys.argv) == 3, "the arguments are bad"
     maybe_args = parse_arguments(*sys.argv[1:])
 
     assert maybe_args is not None, "the arguments are bad"

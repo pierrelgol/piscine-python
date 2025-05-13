@@ -19,7 +19,10 @@ def error_and_die(exception: Exception) -> None:
 
 
 def rotate_image(image: np.ndarray, amount_deg: float) -> np.ndarray:
-    """This function takes an image as an 'ndarray' and an angle, and rotates the image"""
+    """
+    This function takes an image as an 'ndarray'
+    and an angle, and rotates the image
+    """
     amount_rad: float = m.radians(amount_deg)
     cos_theta: float = m.cos(amount_rad)
     sin_theta = m.sin(amount_rad)
@@ -39,11 +42,11 @@ def rotate_image(image: np.ndarray, amount_deg: float) -> np.ndarray:
             x_centered: float = x_rotated + center_x
             y_centered: float = y_rotated + center_y
 
-            x_truncated: int = int(round(x_centered))
-            y_truncated: int = int(round(y_centered))
+            x_trunc: int = int(round(x_centered))
+            y_trunc: int = int(round(y_centered))
 
-            if 0 <= x_truncated < width and 0 <= y_truncated < height:
-                rotated[y_prime, x_prime, :3] = image[y_truncated, x_truncated, :3]
+            if 0 <= x_trunc < width and 0 <= y_trunc < height:
+                rotated[y_prime, x_prime, :3] = image[y_trunc, x_trunc, :3]
 
     return rotated
 
